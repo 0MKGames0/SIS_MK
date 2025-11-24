@@ -1,0 +1,137 @@
+﻿<Window x:Class="SIS_MK.DatabaseEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактор базы SIS_MK"
+        Height="600" Width="900"
+        Background="{StaticResource BgBrush}"
+        Foreground="{StaticResource TextBrush}">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Вкладки -->
+        <TabControl Grid.Row="0">
+            <!-- Персонажи -->
+            <TabItem Header="Персонажи">
+                <DataGrid x:Name="CharactersGrid"
+          ItemsSource="{Binding Characters}"
+          AutoGenerateColumns="False"
+          CanUserAddRows="True"
+          CanUserDeleteRows="True"
+          HeadersVisibility="Column"
+          GridLinesVisibility="None"
+          Background="{StaticResource PanelBrush}"
+          Foreground="{StaticResource TextBrush}"
+          BorderBrush="{StaticResource BorderBrushColor}"
+          RowBackground="{StaticResource PanelBrush}"
+          AlternatingRowBackground="{StaticResource PanelAltBrush}">
+
+                    <!-- стиль ячеек -->
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+                        </Style>
+                    </DataGrid.CellStyle>
+
+                    <!-- стиль заголовков столбцов -->
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id"
+                            Binding="{Binding Id}"
+                            Width="120"/>
+                        <DataGridTextColumn Header="Имя"
+                            Binding="{Binding Name}"
+                            Width="200"/>
+                        <DataGridTextColumn Header="Портрет"
+                            Binding="{Binding Portrait}"
+                            Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <!-- Предметы -->
+            <TabItem Header="Предметы">
+                <DataGrid x:Name="ItemsGrid"
+          ItemsSource="{Binding Items}"
+          AutoGenerateColumns="False"
+          CanUserAddRows="True"
+          CanUserDeleteRows="True"
+          HeadersVisibility="Column"
+          GridLinesVisibility="None"
+          Background="{StaticResource PanelBrush}"
+          Foreground="{StaticResource TextBrush}"
+          BorderBrush="{StaticResource BorderBrushColor}"
+          RowBackground="{StaticResource PanelBrush}"
+          AlternatingRowBackground="{StaticResource PanelAltBrush}">
+
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+                        </Style>
+                    </DataGrid.CellStyle>
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="{StaticResource PanelBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushColor}"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id"
+                            Binding="{Binding Id}"
+                            Width="120"/>
+                        <DataGridTextColumn Header="Название"
+                            Binding="{Binding Name}"
+                            Width="200"/>
+                        <DataGridTextColumn Header="Локация (нижняя строка)"
+                            Binding="{Binding Location}"
+                            Width="*"/>
+                        <DataGridTextColumn Header="Сценарий"
+                            Binding="{Binding Scenario}"
+                            Width="150"/>
+                        <DataGridTextColumn Header="Комната"
+                            Binding="{Binding Room}"
+                            Width="150"/>
+                        <DataGridTextColumn Header="Персонажи (id через запятую)"
+                            Binding="{Binding AvailableForString}"
+                            Width="220"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+
+        <!-- Нижняя панель: статус + кнопки -->
+        <DockPanel Grid.Row="1" Margin="0,8,0,0">
+            <TextBlock Text="{Binding StatusText}"
+                       FontSize="11"
+                       Foreground="{StaticResource TextSecondaryBrush}"
+                       VerticalAlignment="Center"
+                       DockPanel.Dock="Left"/>
+
+            <StackPanel Orientation="Horizontal"
+                        DockPanel.Dock="Right"
+                        HorizontalAlignment="Right">
+                <Button Content="Сохранить"
+                        Margin="0,0,8,0"
+                        Padding="12,4"
+                        Click="SaveButton_Click"/>
+                <Button Content="Закрыть"
+                        Padding="12,4"
+                        Click="CloseButton_Click"/>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>

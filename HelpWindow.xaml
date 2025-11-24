@@ -1,0 +1,60 @@
+﻿<Window x:Class="SIS_MK.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Как пользоваться программой"
+        Height="400" Width="600"
+        Background="{StaticResource BgBrush}"
+        Foreground="{StaticResource TextBrush}">
+
+    <Border Margin="10"
+            Background="{StaticResource PanelBrush}"
+            BorderBrush="{StaticResource BorderBrushColor}"
+            BorderThickness="1">
+
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <!-- Текст инструкции -->
+                <RowDefinition Height="Auto"/>
+                <!-- Большой логотип -->
+                <RowDefinition Height="*"/>
+                <!-- Версия/дата -->
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 1. Текст -->
+            <ScrollViewer Grid.Row="0"
+                          VerticalScrollBarVisibility="Auto">
+                <TextBlock TextWrapping="Wrap">
+                    <Run Text="Shift+N — открыть это окно."/><LineBreak/><LineBreak/>
+                    <Run Text="1. Список слева - выбор персонажа."/><LineBreak/>
+                    <Run Text="2. Справа галочками отмечаешь собранные предметы."/><LineBreak/>
+                    <Run Text="3. Наведя на предмет будет более подробное описание"/><LineBreak/>
+                    <Run Text="4. Счётчик сверху показывает прогресс по выбранному персонажу."/><LineBreak/>
+                    <Run Text="5. В игре есть сеты предметов. Они обозначаются как путь A / B / C / D"/><LineBreak/>
+                    <Run Text="      • A и B- Легкий/Норма"/><LineBreak/>
+                    <Run Text="      • С и D - Хард/УльтраХард"/><LineBreak/>
+                </TextBlock>
+            </ScrollViewer>
+
+            <!-- 2. Большая M_K под текстом -->
+            <Image
+                   Source="Images/Logo/MK_New.png"
+                   Stretch="Uniform"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Height="300"          
+                Opacity="0.9" Margin="120,117,0,0" Grid.RowSpan="3"/>
+            <!-- если хочешь более «водяной знак», уменьши до 0.4–0.6 -->
+
+            <!-- 3. Версия и дата в самом низу -->
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        Margin="0,8,5,0"
+                        HorizontalAlignment="Right">
+                <TextBlock Text="   v1.1  •  20.11.2025"
+                           FontSize="11"
+                           Foreground="{StaticResource TextSecondaryBrush}"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
