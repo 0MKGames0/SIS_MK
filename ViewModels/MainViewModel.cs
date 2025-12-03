@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace SIS_MK.ViewModels
     public class MainViewModel : ObservableObject
     {
         private readonly DataService _dataService;
+        public DataService DataService => _dataService;
+
 
         private readonly ObservableCollection<ItemEntryViewModel> _itemsInternal =
             new ObservableCollection<ItemEntryViewModel>();
@@ -17,39 +20,64 @@ namespace SIS_MK.ViewModels
         private readonly ObservableCollection<string> _scenarios =
             new ObservableCollection<string>();
 
+        private GameDefinition _selectedGame;
+
         private CharacterDefinition _selectedCharacter;
         private string _selectedScenario = "Все сценарии";
 
         private int _collectedCount;
+
         private int _totalCount;
         private string _counterText = "00 / 00 собрано";
 
         public MainViewModel()
         {
             _dataService = new DataService();
-            var data = _dataService.LoadAppData();
 
-            Characters = new ObservableCollection<CharacterDefinition>(data.Characters);
+            // Список игр из DataService
+            Games = new ObservableCollection<GameDefinition>(_dataService.Games);
+
+            // Коллекции, в которые потом зальём данные из текущей игры
+            Characters = new ObservableCollection<CharacterDefinition>();
             Items = _itemsInternal;
             Scenarios = _scenarios;
 
-            if (Characters.Count > 0)
+            // Выбираем по умолчанию первую игру
+            if (Games.Count > 0)
             {
-                // по умолчанию — первый персонаж, фильтр "Все сценарии"
-                _selectedScenario = "Все сценарии";
-                _selectedCharacter = Characters[0];
-                OnPropertyChanged(nameof(SelectedCharacter));
-                OnPropertyChanged(nameof(SelectedScenario));
+                _selectedGame = Games[0];
+                OnPropertyChanged(nameof(SelectedGame));
 
-                ReloadItemsAndScenarios(true);
+                _dataService.SetCurrentGame(_selectedGame);
             }
+
+            // Загружаем данные по текущей игре
+            ReloadDataFromDisk();
         }
+
 
         public ObservableCollection<CharacterDefinition> Characters { get; }
 
         public ObservableCollection<ItemEntryViewModel> Items { get; }
 
         public ObservableCollection<string> Scenarios { get; }
+
+        public ObservableCollection<GameDefinition> Games { get; }
+
+        public GameDefinition SelectedGame
+        {
+            get => _selectedGame;
+            set
+            {
+                if (SetField(ref _selectedGame, value) && value != null)
+                {
+                    // При смене игры переключаем DataService и полностью перечитываем базу
+                    _dataService.SetCurrentGame(value);
+                    ReloadDataFromDisk();
+                }
+            }
+        }
+
 
         public CharacterDefinition SelectedCharacter
         {
@@ -59,7 +87,7 @@ namespace SIS_MK.ViewModels
                 if (SetField(ref _selectedCharacter, value))
                 {
                     // сменился персонаж — пересчитываем и список предметов, и список сценариев
-                    ReloadItemsAndScenarios(true);
+                    ReloadItemsAndScenarios(false);
                 }
             }
         }
@@ -112,11 +140,13 @@ namespace SIS_MK.ViewModels
             }
 
             // 1. Берём все предметы ТОЛЬКО для выбранного персонажа
+            //    и сразу же выкидываем возможные дубликаты по Id.
             var allItemsForCharacter = _dataService.Items
                 .Where(i => i.AvailableFor != null &&
                             i.AvailableFor.Contains(_selectedCharacter.Id))
                 .OrderBy(i => i.Name)
                 .ToList();
+
 
             // 2. Обновляем список сценариев (если нужно)
             if (rebuildScenarios)
@@ -185,13 +215,24 @@ namespace SIS_MK.ViewModels
         {
             var data = _dataService.LoadAppData();
 
+            // Обновляем персонажей
             Characters.Clear();
             foreach (var ch in data.Characters)
                 Characters.Add(ch);
 
+            // Сброс фильтра сценариев
+            _selectedScenario = "Все сценарии";
+            OnPropertyChanged(nameof(SelectedScenario));
+
             if (Characters.Count > 0)
             {
-                SelectedCharacter = Characters[0]; // автоматически перезагрузит сценарии и предметы
+                // Ставим первого персонажа БЕЗ вызова сеттера, чтобы
+                // самому решить, как пересобрать всё
+                _selectedCharacter = Characters[0];
+                OnPropertyChanged(nameof(SelectedCharacter));
+
+                // Полная пересборка: и предметов, и списка сценариев
+                ReloadItemsAndScenarios(rebuildScenarios: true);
             }
             else
             {

@@ -7,6 +7,9 @@
     <Compile Update="DatabaseEditorWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="GameSelectionWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="HelpWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

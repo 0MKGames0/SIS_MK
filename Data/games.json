@@ -1,0 +1,16 @@
+[
+  {
+    "Id": "outbreak_file1",
+    "Name": "RE Outbreak: File #1",
+    "ItemsFile": "items.json",
+    "LogoPath": "images/logo/outbreak_file1.jpg"
+  },
+
+  {
+    "Id": "outbreak_file2",
+    "Name": "RE Outbreak: File #2",
+    "ItemsFile": "items_outbreak_file2.json",
+    "LogoPath": "images/logo/outbreak_file2.jpg"
+  }
+
+]

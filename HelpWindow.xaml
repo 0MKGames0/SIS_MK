@@ -51,7 +51,7 @@
                         Orientation="Horizontal"
                         Margin="0,8,5,0"
                         HorizontalAlignment="Right">
-                <TextBlock Text="   v1.1  •  20.11.2025"
+                <TextBlock Text="   v2.0.0  •  04.12.2025"
                            FontSize="11"
                            Foreground="{StaticResource TextSecondaryBrush}"/>
             </StackPanel>

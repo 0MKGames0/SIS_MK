@@ -11,7 +11,9 @@
 
   <ItemGroup>
     <None Remove="Data\items.json" />
+    <None Remove="Data\items_outbreak_file2.json" />
     <None Remove="Data\progress.json" />
+	<None Remove="Data\games.json" />  
     <None Remove="images\Characters\alissa.png" />
     <None Remove="images\Characters\david.png" />
     <None Remove="images\Characters\jim.png" />
@@ -22,15 +24,23 @@
     <None Remove="images\Characters\shared.png" />
     <None Remove="images\Characters\sindi.png" />
     <None Remove="images\logo\mk_new.png" />
+    <None Remove="images\logo\outbreak_file1.jpg" />
+    <None Remove="images\logo\outbreak_file2.jpg" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Data\items.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\items_outbreak_file2.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\progress.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+	  <Content Include="Data\games.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +72,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="images\logo\mk_new.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\logo\outbreak_file1.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\logo\outbreak_file2.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
